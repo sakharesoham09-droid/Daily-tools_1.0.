@@ -1,0 +1,2972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>DailyTools 7.0</title>
+
+<style>
+:root{
+ --bg:#07111f;
+ --bg2:#0d1b2e;
+ --card:rgba(255,255,255,.075);
+ --card2:rgba(255,255,255,.11);
+ --text:#f5f8ff;
+ --muted:#9daabd;
+ --accent:#00d9ff;
+ --danger:#ff5570;
+ --success:#35df91;
+ --border:rgba(255,255,255,.11);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;
+ min-height:100vh;
+ font-family:Arial,Helvetica,sans-serif;
+ color:var(--text);
+ background:
+ radial-gradient(circle at 10% 0%,rgba(0,217,255,.16),transparent 28%),
+ radial-gradient(circle at 100% 70%,rgba(120,70,255,.15),transparent 30%),
+ linear-gradient(135deg,var(--bg),var(--bg2));
+}
+button,input,textarea,select{font:inherit}
+button{
+ border:1px solid var(--border);
+ color:var(--text);
+ background:var(--card);
+ padding:10px 13px;
+ border-radius:12px;
+ cursor:pointer;
+ transition:.2s;
+}
+button:hover{transform:translateY(-1px);background:var(--card2)}
+button.primary{
+ background:var(--accent);
+ color:#00131a;
+ border:0;
+ font-weight:700;
+}
+button.danger{background:rgba(255,85,112,.15);color:#ff8094}
+button.success{background:rgba(53,223,145,.15);color:#64eca9}
+input,textarea,select{
+ width:100%;
+ padding:11px 12px;
+ margin:5px 0;
+ color:var(--text);
+ background:rgba(0,0,0,.22);
+ border:1px solid var(--border);
+ border-radius:11px;
+ outline:none;
+}
+textarea{min-height:130px;resize:vertical}
+select option{background:#111c2d;color:white}
+header{
+ position:sticky;
+ top:0;
+ z-index:100;
+ min-height:62px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ padding:10px 14px;
+ background:rgba(4,10,19,.84);
+ backdrop-filter:blur(20px);
+ border-bottom:1px solid var(--border);
+}
+.logo{
+ font-size:20px;
+ font-weight:800;
+ color:var(--accent);
+ white-space:nowrap;
+}
+.headerBtns{display:flex;gap:6px}
+nav{
+ position:sticky;
+ top:62px;
+ z-index:90;
+ display:flex;
+ gap:7px;
+ overflow-x:auto;
+ padding:8px 10px;
+ background:rgba(4,10,19,.72);
+ backdrop-filter:blur(16px);
+ border-bottom:1px solid var(--border);
+}
+nav button{white-space:nowrap}
+main{max-width:1250px;margin:auto;padding:16px}
+.page{display:none}
+.page.active{display:block}
+.hero{
+ padding:25px;
+ border:1px solid var(--border);
+ border-radius:26px;
+ background:linear-gradient(135deg,rgba(0,217,255,.13),rgba(255,255,255,.035));
+ margin-bottom:18px;
+}
+.hero h1{margin:0 0 7px;font-size:34px}
+.hero p{color:var(--muted)}
+.clock{font-size:30px;font-weight:800;color:var(--accent)}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+ gap:13px;
+}
+.toolsGrid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+ gap:15px;
+}
+.card{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:16px;
+ backdrop-filter:blur(14px);
+ box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+.card h2,.card h3{margin-top:0}
+.icon{font-size:35px}
+.muted,.small{color:var(--muted);font-size:13px}
+.big{font-size:28px;font-weight:800}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.result{
+ margin-top:10px;
+ padding:12px;
+ border-radius:12px;
+ background:rgba(0,0,0,.24);
+ color:var(--accent);
+ min-height:20px;
+}
+.list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.item{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ padding:11px;
+ border-radius:12px;
+ background:rgba(255,255,255,.055);
+ border:1px solid rgba(255,255,255,.05);
+}
+.itemText{flex:1;min-width:0}
+.itemText b{word-break:break-word}
+.done{text-decoration:line-through;opacity:.5}
+.badge{
+ display:inline-block;
+ padding:4px 8px;
+ border-radius:20px;
+ background:rgba(0,217,255,.12);
+ color:var(--accent);
+ font-size:11px;
+}
+.progress{
+ height:11px;
+ background:rgba(255,255,255,.08);
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:7px;
+}
+.progress span{
+ display:block;
+ height:100%;
+ width:0;
+ background:var(--accent);
+ transition:.4s;
+}
+.stat{
+ padding:15px;
+ border-radius:16px;
+ background:rgba(255,255,255,.05);
+}
+.stat .value{font-size:26px;font-weight:800;color:var(--accent)}
+table{width:100%;border-collapse:collapse}
+th,td{
+ padding:9px;
+ text-align:left;
+ border-bottom:1px solid var(--border);
+ font-size:13px;
+}
+canvas{
+ max-width:100%;
+ background:rgba(0,0,0,.15);
+ border-radius:15px;
+}
+.calendar{
+ display:grid;
+ grid-template-columns:repeat(7,1fr);
+ gap:5px;
+ margin-top:10px;
+}
+.calHead{
+ text-align:center;
+ color:var(--muted);
+ font-size:12px;
+ padding:5px;
+}
+.day{
+ min-height:62px;
+ padding:7px;
+ border-radius:10px;
+ background:rgba(255,255,255,.045);
+ border:1px solid transparent;
+ cursor:pointer;
+}
+.day:hover{border-color:var(--accent)}
+.day.today{border-color:var(--accent);box-shadow:0 0 12px rgba(0,217,255,.12)}
+.day.selected{background:rgba(0,217,255,.12)}
+.day.hasEvent:after{
+ content:"•";
+ display:block;
+ color:var(--accent);
+ font-size:20px;
+ line-height:12px;
+}
+.note{
+ padding:13px;
+ border-radius:14px;
+ background:rgba(255,255,255,.055);
+ border:1px solid var(--border);
+}
+.noteTitle{font-weight:700}
+.flashcard{
+ min-height:210px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ padding:25px;
+ font-size:25px;
+ border-radius:20px;
+ background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,255,255,.04));
+ border:1px solid var(--border);
+ cursor:pointer;
+}
+.statGrid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+ gap:10px;
+}
+.gameGrid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:6px;
+}
+.gameTile{
+ aspect-ratio:1;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:8px;
+ background:#28384a;
+ font-size:22px;
+ font-weight:bold;
+}
+.gameControls{
+ display:grid;
+ grid-template-columns:repeat(3,50px);
+ justify-content:center;
+ gap:5px;
+ margin-top:10px;
+}
+.gameControls button{height:45px;padding:0}
+.gameControls .empty{visibility:hidden}
+video,audio{max-width:100%}
+footer{text-align:center;color:var(--muted);padding:35px 15px}
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:500;
+ background:rgba(0,0,0,.65);
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+}
+.modal.show{display:flex}
+.modalBox{
+ width:min(500px,100%);
+ max-height:90vh;
+ overflow:auto;
+ background:#101c2c;
+ border:1px solid var(--border);
+ border-radius:22px;
+ padding:18px;
+}
+.searchBox{position:relative;margin-bottom:15px}
+#searchResults{
+ position:absolute;
+ top:100%;
+ left:0;
+ right:0;
+ z-index:200;
+ background:#101c2c;
+ border:1px solid var(--border);
+ border-radius:13px;
+ overflow:hidden;
+ display:none;
+}
+.searchResult{padding:11px;cursor:pointer}
+.searchResult:hover{background:rgba(255,255,255,.08)}
+.hidden{display:none!important}
+
+@media(max-width:650px){
+ .hero h1{font-size:27px}
+ .row,.row3{grid-template-columns:1fr}
+ .day{min-height:48px;font-size:12px}
+ .gameGrid{gap:4px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">⚡ DailyTools 7.0</div>
+ <div class="headerBtns">
+  <button onclick="openSearch()">🔍</button>
+  <button onclick="toggleTheme()">🌙</button>
+ </div>
+</header>
+
+<nav>
+ <button onclick="showPage('home')">🏠 Home</button>
+ <button onclick="showPage('tools')">🧰 Tools</button>
+ <button onclick="showPage('study')">📚 Study</button>
+ <button onclick="showPage('planner')">📅 Planner</button>
+ <button onclick="showPage('calendarPage')">🗓️ Calendar</button>
+ <button onclick="showPage('notes')">📝 Notes</button>
+ <button onclick="showPage('habits')">🎯 Habits</button>
+ <button onclick="showPage('expenses')">💰 Money</button>
+ <button onclick="showPage('flashcards')">🧠 Flashcards</button>
+ <button onclick="showPage('games')">🎮 Games</button>
+ <button onclick="showPage('media')">🎵 Media</button>
+ <button onclick="showPage('backup')">💾 Backup</button>
+</nav>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="page active">
+
+ <div class="hero">
+  <h1>Welcome to DailyTools 7.0</h1>
+  <p>One practical toolbox for study, planning, productivity, money and fun.</p>
+  <div class="clock" id="clock">00:00:00</div>
+  <div class="small" id="date"></div>
+ </div>
+
+ <div class="searchBox">
+  <input id="globalSearch"
+   placeholder="🔍 Search DailyTools..."
+   oninput="globalSearch()">
+  <div id="searchResults"></div>
+ </div>
+
+ <div class="statGrid">
+  <div class="stat">
+   <div class="small">Tasks</div>
+   <div class="value" id="homeTasks">0</div>
+  </div>
+  <div class="stat">
+   <div class="small">Notes</div>
+   <div class="value" id="homeNotes">0</div>
+  </div>
+  <div class="stat">
+   <div class="small">Study Results</div>
+   <div class="value" id="homeResults">0</div>
+  </div>
+  <div class="stat">
+   <div class="small">Habits Today</div>
+   <div class="value" id="homeHabits">0</div>
+  </div>
+ </div>
+
+ <h2>Quick Access</h2>
+
+ <div class="grid">
+  <div class="card">
+   <div class="icon">🧮</div>
+   <h3>Calculator</h3>
+   <p class="small">Scientific calculations.</p>
+   <button class="primary" onclick="showPage('tools')">Open</button>
+  </div>
+
+  <div class="card">
+   <div class="icon">📚</div>
+   <h3>Study Tracker</h3>
+   <p class="small">Track marks and compare terms.</p>
+   <button class="primary" onclick="showPage('study')">Open</button>
+  </div>
+
+  <div class="card">
+   <div class="icon">🎯</div>
+   <h3>Habit Tracker</h3>
+   <p class="small">Build daily habits.</p>
+   <button class="primary" onclick="showPage('habits')">Open</button>
+  </div>
+
+  <div class="card">
+   <div class="icon">💰</div>
+   <h3>Expense Tracker</h3>
+   <p class="small">Track your spending.</p>
+   <button class="primary" onclick="showPage('expenses')">Open</button>
+  </div>
+ </div>
+</section>
+
+
+<!-- TOOLS -->
+<section id="tools" class="page">
+
+ <h2>🧰 Tools</h2>
+
+ <div class="toolsGrid">
+
+  <div class="card">
+   <h3>🧮 Scientific Calculator</h3>
+   <input id="calc" placeholder="Example: 25*4+10">
+   <div class="actions">
+    <button onclick="calcInsert('Math.sin(')">sin</button>
+    <button onclick="calcInsert('Math.cos(')">cos</button>
+    <button onclick="calcInsert('Math.tan(')">tan</button>
+    <button onclick="calcInsert('Math.sqrt(')">√</button>
+    <button onclick="calcInsert('Math.PI')">π</button>
+   </div>
+   <div class="actions">
+    <button class="primary" onclick="calculate()">Calculate</button>
+    <button onclick="document.getElementById('calc').value=''">Clear</button>
+   </div>
+   <div class="result" id="calcResult">Result</div>
+  </div>
+
+
+  <div class="card">
+   <h3>📊 Percentage</h3>
+   <input id="pctObt" type="number" placeholder="Obtained">
+   <input id="pctTotal" type="number" placeholder="Total">
+   <button class="primary" onclick="percentage()">Calculate</button>
+   <div class="result" id="pctResult"></div>
+  </div>
+
+
+  <div class="card">
+   <h3>🎂 Age Calculator</h3>
+   <input id="dob" type="date">
+   <button class="primary" onclick="calculateAge()">Calculate</button>
+   <div class="result" id="ageResult"></div>
+  </div>
+
+
+  <div class="card">
+   <h3>📏 Unit Converter</h3>
+   <input id="unitValue" type="number" placeholder="Value">
+   <select id="unitType">
+    <option value="kmmi">Kilometer → Mile</option>
+    <option value="mkm">Meter → Kilometer</option>
+    <option value="mft">Meter → Feet</option>
+    <option value="ftm">Feet → Meter</option>
+    <option value="kgp">Kilogram → Pound</option>
+    <option value="pkg">Pound → Kilogram</option>
+    <option value="cmIn">Centimeter → Inch</option>
+    <option value="inCm">Inch → Centimeter</option>
+    <option value="cf">Celsius → Fahrenheit</option>
+    <option value="fc">Fahrenheit → Celsius</option>
+   </select>
+   <button class="primary" onclick="convertUnit()">Convert</button>
+   <div class="result" id="unitResult"></div>
+  </div>
+
+
+  <div class="card">
+   <h3>📝 Text Analyzer</h3>
+   <textarea id="textAnalyzer" placeholder="Write or paste text..."></textarea>
+   <div class="result" id="textStats">0 words • 0 characters • 0 lines</div>
+  </div>
+
+
+  <div class="card">
+   <h3>🔐 Password Generator</h3>
+   <input id="passLength" type="number" min="4" max="100" value="16">
+   <button class="primary" onclick="generatePassword()">Generate</button>
+   <div class="result" id="passwordResult"></div>
+  </div>
+
+
+  <div class="card">
+   <h3>🎲 Random Number</h3>
+   <div class="row">
+    <input id="randomMin" type="number" placeholder="Min">
+    <input id="randomMax" type="number" placeholder="Max">
+   </div>
+   <button class="primary" onclick="randomNumber()">Generate</button>
+   <div class="result" id="randomResult"></div>
+  </div>
+
+
+  <div class="card">
+   <h3>⏱️ Countdown Timer</h3>
+   <input id="timerInput" type="number" placeholder="Seconds">
+   <div class="big" id="timerDisplay">00:00</div>
+   <div class="actions">
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Reset</button>
+   </div>
+  </div>
+
+
+  <div class="card">
+   <h3>⏱️ Stopwatch</h3>
+   <div class="big" id="stopwatchDisplay">00:00:00</div>
+   <div class="actions">
+    <button onclick="startStopwatch()">Start</button>
+    <button onclick="pauseStopwatch()">Pause</button>
+    <button onclick="resetStopwatch()">Reset</button>
+   </div>
+  </div>
+
+
+  <div class="card">
+   <h3>🔳 QR Generator</h3>
+   <input id="qrInput" placeholder="Text or URL">
+   <button class="primary" onclick="generateQR()">Generate</button>
+   <div id="qrOutput" style="margin-top:10px"></div>
+   <div class="small">Requires internet for the QR image service.</div>
+  </div>
+
+ </div>
+</section>
+
+
+<!-- STUDY -->
+<section id="study" class="page">
+
+ <h2>📚 Study Performance Tracker</h2>
+
+ <div class="toolsGrid">
+
+  <div class="card">
+   <h3>➕ Add Result</h3>
+
+   <input id="academicYear" placeholder="Academic Year e.g. 2026-27">
+   <input id="examName" placeholder="Exam / Term e.g. Term 1">
+
+   <input id="studySubject" placeholder="Subject">
+
+   <div class="row">
+    <input id="studyMax" type="number" placeholder="Maximum Marks">
+    <input id="studyObt" type="number" placeholder="Obtained Marks">
+   </div>
+
+   <button class="primary" onclick="addStudySubject()">Add Subject</button>
+
+   <div id="currentSubjects" class="list"></div>
+
+   <button class="primary" onclick="saveStudyResult()">💾 Save Result</button>
+  </div>
+
+
+  <div class="card">
+   <h3>📊 Latest Analysis</h3>
+   <div id="studyAnalysis">No result saved.</div>
+   <div class="progress">
+    <span id="studyBar"></span>
+   </div>
+  </div>
+
+
+  <div class="card">
+   <h3>🔎 Compare Terms</h3>
+
+   <select id="compareOne"></select>
+   <select id="compareTwo"></select>
+
+   <button class="primary" onclick="compareStudy()">Compare</button>
+
+   <div class="result" id="studyComparison"></div>
+  </div>
+
+ </div>
+
+ <div class="card" style="margin-top:15px">
+  <h3>📋 Saved Results</h3>
+  <div id="studyResultsList"></div>
+  <button onclick="exportStudyCSV()">Export CSV</button>
+ </div>
+
+</section>
+
+
+<!-- PLANNER -->
+<section id="planner" class="page">
+
+ <h2>📅 Planner & Tasks</h2>
+
+ <div class="card">
+
+  <div class="row">
+   <input id="taskText" placeholder="Task">
+   <input id="taskDate" type="date">
+  </div>
+
+  <select id="taskPriority">
+   <option>Low</option>
+   <option selected>Medium</option>
+   <option>High</option>
+  </select>
+
+  <button class="primary" onclick="addTask()">Add Task</button>
+
+  <div class="result" id="taskSummary"></div>
+
+  <div id="tasksList" class="list"></div>
+
+ </div>
+</section>
+
+
+<!-- CALENDAR -->
+<section id="calendarPage" class="page">
+
+ <h2>🗓️ Calendar</h2>
+
+ <div class="card">
+
+  <div class="row">
+   <button onclick="changeMonth(-1)">← Previous</button>
+   <div style="text-align:center;padding:10px;font-weight:bold" id="monthTitle"></div>
+   <button onclick="changeMonth(1)">Next →</button>
+  </div>
+
+  <div class="calendar">
+   <div class="calHead">Sun</div>
+   <div class="calHead">Mon</div>
+   <div class="calHead">Tue</div>
+   <div class="calHead">Wed</div>
+   <div class="calHead">Thu</div>
+   <div class="calHead">Fri</div>
+   <div class="calHead">Sat</div>
+  </div>
+
+  <div id="calendarGrid" class="calendar"></div>
+
+  <div id="calendarSelected" class="result">
+   Select a date.
+  </div>
+
+ </div>
+</section>
+
+
+<!-- NOTES -->
+<section id="notes" class="page">
+
+ <h2>📝 Notes</h2>
+
+ <div class="toolsGrid">
+
+  <div class="card">
+   <h3>New Note</h3>
+   <input id="noteTitle" placeholder="Title">
+   <textarea id="noteBody" placeholder="Write your note..."></textarea>
+   <div class="actions">
+    <button class="primary" onclick="saveNote()">Save Note</button>
+    <button onclick="clearNoteEditor()">Clear</button>
+   </div>
+  </div>
+
+  <div class="card">
+   <h3>🔎 Search Notes</h3>
+   <input id="noteSearch" placeholder="Search..." oninput="renderNotes()">
+   <div id="notesList" class="list"></div>
+  </div>
+
+ </div>
+</section>
+
+
+<!-- HABITS -->
+<section id="habits" class="page">
+
+ <h2>🎯 Habit Tracker</h2>
+
+ <div class="toolsGrid">
+
+  <div class="card">
+   <h3>Add Habit</h3>
+   <input id="habitName" placeholder="Example: Study 1 hour">
+   <button class="primary" onclick="addHabit()">Add Habit</button>
+   <div id="habitsList" class="list"></div>
+  </div>
+
+  <div class="card">
+   <h3>Today's Progress</h3>
+   <div class="big" id="habitPercent">0%</div>
+   <div class="progress"><span id="habitBar"></span></div>
+   <div id="habitStats" class="result"></div>
+  </div>
+
+ </div>
+</section>
+
+
+<!-- EXPENSES -->
+<section id="expenses" class="page">
+
+ <h2>💰 Expense Tracker</h2>
+
+ <div class="toolsGrid">
+
+  <div class="card">
+   <h3>Add Expense</h3>
+   <input id="expenseName" placeholder="Expense name">
+   <div class="row">
+    <input id="expenseAmount" type="number" placeholder="Amount">
+    <input id="expenseDate" type="date">
+   </div>
+
+   <select id="expenseCategory">
+    <option>Food</option>
+    <option>Travel</option>
+    <option>Study</option>
+    <option>Shopping</option>
+    <option>Entertainment</option>
+    <option>Other</option>
+   </select>
+
+   <button class="primary" onclick="addExpense()">Add Expense</button>
+  </div>
+
+  <div class="card">
+   <h3>📊 Money Summary</h3>
+   <div class="statGrid">
+    <div class="stat">
+     <div class="small">Total</div>
+     <div class="value" id="expenseTotal">₹0</div>
+    </div>
+    <div class="stat">
+     <div class="small">Entries</div>
+     <div class="value" id="expenseCount">0</div>
+    </div>
+   </div>
+  </div>
+
+ </div>
+
+ <div class="card" style="margin-top:15px">
+  <h3>Expenses</h3>
+  <div id="expenseList" class="list"></div>
+ </div>
+</section>
+
+
+<!-- FLASHCARDS -->
+<section id="flashcards" class="page">
+
+ <h2>🧠 Flashcards</h2>
+
+ <div class="toolsGrid">
+
+  <div class="card">
+   <h3>Create Flashcard</h3>
+   <input id="flashQuestion" placeholder="Question">
+   <textarea id="flashAnswer" placeholder="Answer"></textarea>
+   <button class="primary" onclick="addFlashcard()">Add Card</button>
+   <div id="flashCount" class="result"></div>
+  </div>
+
+  <div class="card">
+   <h3>Study</h3>
+
+   <div class="flashcard" id="flashDisplay" onclick="flipFlashcard()">
+    No cards yet.
+   </div>
+
+   <div class="actions">
+    <button onclick="previousFlash()">← Previous</button>
+    <button class="primary" onclick="flipFlashcard()">Flip</button>
+    <button onclick="nextFlash()">Next →</button>
+    <button class="danger" onclick="deleteCurrentFlash()">Delete</button>
+   </div>
+
+   <div class="small" id="flashPosition"></div>
+  </div>
+
+ </div>
+</section>
+
+
+<!-- GAMES -->
+<section id="games" class="page">
+
+ <h2>🎮 Games</h2>
+
+ <div class="toolsGrid">
+
+  <!-- TTT -->
+  <div class="card">
+   <h3>⭕ Tic-Tac-Toe</h3>
+   <div id="ttt" class="gameGrid"
+    style="grid-template-columns:repeat(3,1fr)"></div>
+   <div id="tttStatus" class="result">Turn: X</div>
+   <button onclick="resetTTT()">Restart</button>
+  </div>
+
+
+  <!-- RPS -->
+  <div class="card">
+   <h3>✊ Rock Paper Scissors</h3>
+   <div class="actions">
+    <button onclick="playRPS('Rock')">✊ Rock</button>
+    <button onclick="playRPS('Paper')">✋ Paper</button>
+    <button onclick="playRPS('Scissors')">✌️ Scissors</button>
+   </div>
+   <div id="rpsResult" class="result"></div>
+  </div>
+
+
+  <!-- NUMBER -->
+  <div class="card">
+   <h3>🔢 Number Guess</h3>
+   <p class="small">Guess a number from 1 to 100.</p>
+   <input id="guess" type="number" placeholder="Your guess">
+   <button class="primary" onclick="makeGuess()">Guess</button>
+   <button onclick="newGuessGame()">New Game</button>
+   <div id="guessResult" class="result"></div>
+  </div>
+
+
+  <!-- MEMORY -->
+  <div class="card">
+   <h3>🧠 Memory</h3>
+   <div id="memory" class="gameGrid"></div>
+   <button onclick="startMemory()">New Game</button>
+  </div>
+
+
+  <!-- 2048 -->
+  <div class="card">
+   <h3>🟩 2048</h3>
+   <div id="game2048" class="gameGrid"></div>
+
+   <div class="actions">
+    <button onclick="move2048('left')">←</button>
+    <button onclick="move2048('up')">↑</button>
+    <button onclick="move2048('down')">↓</button>
+    <button onclick="move2048('right')">→</button>
+   </div>
+
+   <p class="small">Keyboard arrows or buttons.</p>
+   <button onclick="start2048()">Restart</button>
+  </div>
+
+
+  <!-- SNAKE -->
+  <div class="card">
+   <h3>🐍 Snake</h3>
+
+   <canvas id="snakeCanvas" width="300" height="300"></canvas>
+
+   <div class="gameControls">
+    <span class="empty"></span>
+    <button onclick="snakeDirection('up')">↑</button>
+    <span class="empty"></span>
+
+    <button onclick="snakeDirection('left')">←</button>
+    <button onclick="snakeDirection('down')">↓</button>
+    <button onclick="snakeDirection('right')">→</button>
+   </div>
+
+   <button onclick="startSnake()">Start / Restart</button>
+  </div>
+
+ </div>
+</section>
+
+
+<!-- MEDIA -->
+<section id="media" class="page">
+
+ <h2>🎵 Media</h2>
+
+ <div class="toolsGrid">
+
+  <div class="card">
+   <h3>🎵 Local Music Player</h3>
+   <input id="musicFiles" type="file" accept="audio/*" multiple>
+   <audio id="audioPlayer" controls style="width:100%;margin-top:10px"></audio>
+   <div id="musicList" class="list"></div>
+  </div>
+
+  <div class="card">
+   <h3>🎬 Local Video Player</h3>
+   <input id="videoFile" type="file" accept="video/*">
+   <video id="videoPlayer" controls
+    style="width:100%;margin-top:10px;border-radius:15px"></video>
+  </div>
+
+ </div>
+</section>
+
+
+<!-- BACKUP -->
+<section id="backup" class="page">
+
+ <h2>💾 Backup & Restore</h2>
+
+ <div class="toolsGrid">
+
+  <div class="card">
+   <h3>📤 Export Everything</h3>
+   <p class="small">
+    Download your DailyTools data as a JSON backup.
+   </p>
+   <button class="primary" onclick="exportBackup()">Download Backup</button>
+  </div>
+
+  <div class="card">
+   <h3>📥 Restore Backup</h3>
+   <p class="small">
+    Select a DailyTools JSON backup file.
+   </p>
+   <input id="backupFile" type="file" accept=".json,application/json">
+   <button class="primary" onclick="restoreBackup()">Restore</button>
+  </div>
+
+  <div class="card">
+   <h3>⚠️ Reset All Data</h3>
+   <p class="small">
+    Deletes locally stored DailyTools data.
+   </p>
+   <button class="danger" onclick="resetAllData()">Delete Everything</button>
+  </div>
+
+ </div>
+</section>
+
+</main>
+
+<footer>
+ DailyTools 7.0 • Single-file web app • Your browser stores local app data
+</footer>
+
+
+<!-- SEARCH MODAL -->
+<div id="searchModal" class="modal">
+ <div class="modalBox">
+  <div class="row">
+   <h3>🔍 Search</h3>
+   <button onclick="closeSearch()">✕</button>
+  </div>
+  <input id="modalSearch"
+   placeholder="Search tools..."
+   oninput="modalSearchRun()">
+  <div id="modalSearchResults" class="list"></div>
+ </div>
+</div>
+
+
+<script>
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const DB={
+ tasks:"dt7_tasks",
+ notes:"dt7_notes",
+ habits:"dt7_habits",
+ expenses:"dt7_expenses",
+ results:"dt7_results",
+ flash:"dt7_flash"
+};
+
+function load(key, fallback=[]){
+ try{
+  return JSON.parse(localStorage.getItem(key)) ?? fallback;
+ }catch{
+  return fallback;
+ }
+}
+
+function save(key,data){
+ localStorage.setItem(key,JSON.stringify(data));
+}
+
+let tasks=load(DB.tasks);
+let notes=load(DB.notes);
+let habits=load(DB.habits);
+let expenses=load(DB.expenses);
+let studyResults=load(DB.results);
+let flashcards=load(DB.flash);
+
+function esc(x){
+ return String(x)
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(id){
+ document.querySelectorAll(".page")
+  .forEach(x=>x.classList.remove("active"));
+
+ document.getElementById(id)
+  .classList.add("active");
+
+ window.scrollTo({top:0,behavior:"smooth"});
+
+ updateDashboard();
+
+ if(id==="calendarPage")renderCalendar();
+ if(id==="notes")renderNotes();
+ if(id==="habits")renderHabits();
+ if(id==="expenses")renderExpenses();
+ if(id==="flashcards")renderFlash();
+ if(id==="games"){
+  renderTTT();
+  render2048();
+ }
+}
+
+
+/* =========================================================
+   CLOCK
+========================================================= */
+
+function updateClock(){
+ const now=new Date();
+
+ clock.textContent=now.toLocaleTimeString();
+
+ date.textContent=now.toLocaleDateString(undefined,{
+  weekday:"long",
+  year:"numeric",
+  month:"long",
+  day:"numeric"
+ });
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function toggleTheme(){
+
+ const light=document.body.dataset.theme==="light";
+
+ if(light){
+  document.body.dataset.theme="";
+  document.documentElement.style.setProperty("--bg","#07111f");
+  document.documentElement.style.setProperty("--bg2","#0d1b2e");
+  document.documentElement.style.setProperty("--text","#f5f8ff");
+  document.documentElement.style.setProperty("--card","rgba(255,255,255,.075)");
+ }else{
+  document.body.dataset.theme="light";
+  document.documentElement.style.setProperty("--bg","#edf3f7");
+  document.documentElement.style.setProperty("--bg2","#dbe7ef");
+  document.documentElement.style.setProperty("--text","#111820");
+  document.documentElement.style.setProperty("--card","rgba(0,0,0,.06)");
+ }
+}
+
+
+/* =========================================================
+   GLOBAL SEARCH
+========================================================= */
+
+const searchable=[
+ ["Calculator","tools"],
+ ["Percentage Calculator","tools"],
+ ["Age Calculator","tools"],
+ ["Unit Converter","tools"],
+ ["Text Analyzer","tools"],
+ ["Password Generator","tools"],
+ ["Random Number","tools"],
+ ["Timer","tools"],
+ ["Stopwatch","tools"],
+ ["QR Generator","tools"],
+ ["Study Tracker","study"],
+ ["Planner","planner"],
+ ["Calendar","calendarPage"],
+ ["Notes","notes"],
+ ["Habit Tracker","habits"],
+ ["Expense Tracker","expenses"],
+ ["Flashcards","flashcards"],
+ ["Games","games"],
+ ["Media Player","media"],
+ ["Backup & Restore","backup"]
+];
+
+function searchItems(q,container){
+
+ q=q.toLowerCase().trim();
+
+ container.innerHTML="";
+
+ if(!q){
+  container.style.display="none";
+  return;
+ }
+
+ const matches=searchable.filter(x=>
+  x[0].toLowerCase().includes(q)
+ );
+
+ matches.forEach(x=>{
+  const d=document.createElement("div");
+  d.className="searchResult";
+  d.textContent=x[0];
+  d.onclick=()=>{
+   showPage(x[1]);
+   container.style.display="none";
+  };
+  container.appendChild(d);
+ });
+
+ container.style.display=matches.length?"block":"none";
+}
+
+function globalSearch(){
+ searchItems(
+  globalSearch.value,
+  searchResults
+ );
+}
+
+function openSearch(){
+ searchModal.classList.add("show");
+ modalSearch.focus();
+}
+
+function closeSearch(){
+ searchModal.classList.remove("show");
+}
+
+function modalSearchRun(){
+
+ const q=modalSearch.value.toLowerCase();
+
+ modalSearchResults.innerHTML="";
+
+ searchable
+ .filter(x=>x[0].toLowerCase().includes(q))
+ .forEach(x=>{
+
+  const d=document.createElement("div");
+  d.className="item";
+  d.innerHTML=`<b>${esc(x[0])}</b>`;
+
+  d.onclick=()=>{
+   closeSearch();
+   showPage(x[1]);
+  };
+
+  modalSearchResults.appendChild(d);
+ });
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function updateDashboard(){
+
+ homeTasks.textContent=tasks.filter(x=>!x.done).length;
+ homeNotes.textContent=notes.length;
+ homeResults.textContent=studyResults.length;
+
+ const today=new Date().toISOString().slice(0,10);
+
+ const done=habits.filter(h=>h.completed?.includes(today)).length;
+
+ homeHabits.textContent=done;
+}
+
+
+/* =========================================================
+   CALCULATOR
+========================================================= */
+
+function calcInsert(v){
+ calc.value+=v;
+ calc.focus();
+}
+
+function calculate(){
+
+ let expression=calc.value;
+
+ if(!expression){
+  calcResult.textContent="Enter an expression.";
+  return;
+ }
+
+ if(!/^[0-9+\-*/().,%\sA-Za-z]+$/.test(expression)){
+  calcResult.textContent="Invalid expression.";
+  return;
+ }
+
+ try{
+  const answer=Function(
+   '"use strict";return ('+expression+')'
+  )();
+
+  calcResult.textContent=Number.isFinite(answer)
+   ?answer
+   :"Invalid result";
+ }catch{
+  calcResult.textContent="Could not calculate.";
+ }
+}
+
+
+/* =========================================================
+   PERCENTAGE
+========================================================= */
+
+function percentage(){
+
+ const a=Number(pctObt.value);
+ const b=Number(pctTotal.value);
+
+ if(!b){
+  pctResult.textContent="Enter a valid total.";
+  return;
+ }
+
+ pctResult.textContent=
+  (a/b*100).toFixed(2)+"%";
+}
+
+
+/* =========================================================
+   AGE
+========================================================= */
+
+function calculateAge(){
+
+ const d=new Date(dob.value);
+
+ if(isNaN(d)){
+  ageResult.textContent="Select your date of birth.";
+  return;
+ }
+
+ const now=new Date();
+
+ let age=now.getFullYear()-d.getFullYear();
+
+ const m=now.getMonth()-d.getMonth();
+
+ if(m<0||(m===0&&now.getDate()<d.getDate()))
+  age--;
+
+ ageResult.textContent=age+" years";
+}
+
+
+/* =========================================================
+   UNIT CONVERTER
+========================================================= */
+
+function convertUnit(){
+
+ const v=Number(unitValue.value);
+ let r=0;
+
+ switch(unitType.value){
+
+  case"kmmi":r=v*.621371;break;
+  case"mkm":r=v/1000;break;
+  case"mft":r=v*3.28084;break;
+  case"ftm":r=v*.3048;break;
+  case"kgp":r=v*2.20462;break;
+  case"pkg":r=v*.453592;break;
+  case"cmIn":r=v*.393701;break;
+  case"inCm":r=v*2.54;break;
+  case"cf":r=v*9/5+32;break;
+  case"fc":r=(v-32)*5/9;break;
+ }
+
+ unitResult.textContent=r.toFixed(4);
+}
+
+
+/* =========================================================
+   TEXT ANALYZER
+========================================================= */
+
+textAnalyzer.addEventListener("input",()=>{
+
+ const t=textAnalyzer.value;
+ const words=t.trim()?t.trim().split(/\s+/).length:0;
+ const lines=t?t.split("\n").length:0;
+
+ textStats.textContent=
+ `${words} words • ${t.length} characters • ${lines} lines`;
+});
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+function generatePassword(){
+
+ let n=Math.max(4,Math.min(100,Number(passLength.value)||16));
+
+ const chars=
+ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"+
+ "abcdefghijklmnopqrstuvwxyz"+
+ "0123456789"+
+ "!@#$%^&*()_+-=[]{}";
+
+ let out="";
+
+ for(let i=0;i<n;i++){
+  out+=chars[Math.floor(Math.random()*chars.length)];
+ }
+
+ passwordResult.textContent=out;
+}
+
+
+/* =========================================================
+   RANDOM NUMBER
+========================================================= */
+
+function randomNumber(){
+
+ const min=Number(randomMin.value);
+ const max=Number(randomMax.value);
+
+ if(max<min){
+  randomResult.textContent="Maximum must be >= minimum.";
+  return;
+ }
+
+ randomResult.textContent=
+ Math.floor(Math.random()*(max-min+1))+min;
+}
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+let timerInterval=null;
+let timerSeconds=0;
+
+function updateTimer(){
+
+ const m=Math.floor(timerSeconds/60);
+ const s=timerSeconds%60;
+
+ timerDisplay.textContent=
+ String(m).padStart(2,"0")+":"+
+ String(s).padStart(2,"0");
+}
+
+function startTimer(){
+
+ if(timerInterval)return;
+
+ if(timerSeconds<=0)
+  timerSeconds=Number(timerInput.value)||0;
+
+ timerInterval=setInterval(()=>{
+
+  if(timerSeconds<=0){
+   clearInterval(timerInterval);
+   timerInterval=null;
+   updateTimer();
+   alert("⏰ Timer finished!");
+   return;
+  }
+
+  timerSeconds--;
+  updateTimer();
+
+ },1000);
+}
+
+function pauseTimer(){
+ clearInterval(timerInterval);
+ timerInterval=null;
+}
+
+function resetTimer(){
+ pauseTimer();
+ timerSeconds=0;
+ updateTimer();
+}
+
+
+/* =========================================================
+   STOPWATCH
+========================================================= */
+
+let stopwatchSeconds=0;
+let stopwatchInterval=null;
+
+function updateStopwatch(){
+
+ const h=Math.floor(stopwatchSeconds/3600);
+ const m=Math.floor((stopwatchSeconds%3600)/60);
+ const s=stopwatchSeconds%60;
+
+ stopwatchDisplay.textContent=
+ String(h).padStart(2,"0")+":"+
+ String(m).padStart(2,"0")+":"+
+ String(s).padStart(2,"0");
+}
+
+function startStopwatch(){
+
+ if(stopwatchInterval)return;
+
+ stopwatchInterval=setInterval(()=>{
+  stopwatchSeconds++;
+  updateStopwatch();
+ },1000);
+}
+
+function pauseStopwatch(){
+ clearInterval(stopwatchInterval);
+ stopwatchInterval=null;
+}
+
+function resetStopwatch(){
+ pauseStopwatch();
+ stopwatchSeconds=0;
+ updateStopwatch();
+}
+
+
+/* =========================================================
+   QR
+========================================================= */
+
+function generateQR(){
+
+ const text=qrInput.value.trim();
+
+ if(!text){
+  qrOutput.textContent="Enter text first.";
+  return;
+ }
+
+ qrOutput.innerHTML=
+ `<img alt="QR Code"
+ style="width:200px;border-radius:12px"
+ src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}">`;
+}
+
+
+/* =========================================================
+   STUDY TRACKER
+========================================================= */
+
+let currentSubjects=[];
+
+function addStudySubject(){
+
+ const name=studySubject.value.trim();
+ const max=Number(studyMax.value);
+ const obtained=Number(studyObt.value);
+
+ if(!name||!max){
+  alert("Enter subject and maximum marks.");
+  return;
+ }
+
+ if(obtained<0||obtained>max){
+  alert("Obtained marks must be between 0 and maximum marks.");
+  return;
+ }
+
+ currentSubjects.push({
+  subject:name,
+  max,
+  obtained
+ });
+
+ studySubject.value="";
+ studyMax.value="";
+ studyObt.value="";
+
+ renderCurrentSubjects();
+}
+
+function renderCurrentSubjects(){
+
+ currentSubjects.innerHTML;
+
+ const box=document.getElementById("currentSubjects");
+
+ box.innerHTML="";
+
+ currentSubjects.forEach((s,i)=>{
+
+  const p=s.obtained/s.max*100;
+
+  box.innerHTML+=`
+  <div class="item">
+   <div class="itemText">
+    <b>${esc(s.subject)}</b><br>
+    <span class="small">
+     ${s.obtained}/${s.max} • ${p.toFixed(2)}%
+    </span>
+   </div>
+   <button class="danger"
+    onclick="removeStudySubject(${i})">✕</button>
+  </div>`;
+ });
+}
+
+function removeStudySubject(i){
+ currentSubjects.splice(i,1);
+ renderCurrentSubjects();
+}
+
+function saveStudyResult(){
+
+ if(!currentSubjects.length){
+  alert("Add at least one subject.");
+  return;
+ }
+
+ const year=academicYear.value.trim()||"Unknown";
+ const exam=examName.value.trim()||"Unnamed";
+
+ const max=currentSubjects.reduce((a,b)=>a+b.max,0);
+ const obtained=currentSubjects.reduce((a,b)=>a+b.obtained,0);
+
+ studyResults.push({
+  id:Date.now(),
+  year,
+  exam,
+  subjects:[...currentSubjects],
+  max,
+  obtained,
+  percentage:obtained/max*100
+ });
+
+ save(DB.results,studyResults);
+
+ currentSubjects=[];
+
+ renderCurrentSubjects();
+ renderStudyResults();
+
+ alert("Result saved.");
+}
+
+function renderStudyResults(){
+
+ studyResultsList.innerHTML="";
+
+ studyResults.forEach(r=>{
+
+  studyResultsList.innerHTML+=`
+  <div class="item">
+   <div class="itemText">
+    <b>${esc(r.exam)}</b>
+    <span class="badge">${esc(r.year)}</span><br>
+    <span class="small">
+     ${r.obtained}/${r.max} •
+     ${r.percentage.toFixed(2)}%
+    </span>
+   </div>
+
+   <button class="danger"
+    onclick="deleteStudyResult(${r.id})">🗑️</button>
+  </div>`;
+ });
+
+ updateStudySelects();
+ updateStudyAnalysis();
+ updateDashboard();
+}
+
+function deleteStudyResult(id){
+
+ studyResults=studyResults.filter(x=>x.id!==id);
+
+ save(DB.results,studyResults);
+
+ renderStudyResults();
+}
+
+function updateStudySelects(){
+
+ compareOne.innerHTML="";
+ compareTwo.innerHTML="";
+
+ studyResults.forEach((r,i)=>{
+
+  compareOne.add(
+   new Option(`${r.exam} - ${r.year}`,i)
+  );
+
+  compareTwo.add(
+   new Option(`${r.exam} - ${r.year}`,i)
+  );
+ });
+}
+
+function updateStudyAnalysis(){
+
+ if(!studyResults.length){
+  studyAnalysis.textContent="No result saved.";
+  studyBar.style.width="0%";
+  return;
+ }
+
+ const r=studyResults[studyResults.length-1];
+
+ let best=r.subjects[0];
+ let worst=r.subjects[0];
+
+ r.subjects.forEach(s=>{
+  if(s.obtained/s.max>best.obtained/best.max)best=s;
+  if(s.obtained/s.max<worst.obtained/worst.max)worst=s;
+ });
+
+ studyAnalysis.innerHTML=`
+ <b>${esc(r.exam)}</b><br>
+ Overall: ${r.percentage.toFixed(2)}%<br>
+ Highest: ${esc(best.subject)}
+ (${(best.obtained/best.max*100).toFixed(2)}%)<br>
+ Lowest: ${esc(worst.subject)}
+ (${(worst.obtained/worst.max*100).toFixed(2)}%)
+ `;
+
+ studyBar.style.width=Math.min(100,r.percentage)+"%";
+}
+
+function compareStudy(){
+
+ if(studyResults.length<2){
+  studyComparison.textContent=
+   "Save at least two results.";
+  return;
+ }
+
+ const a=studyResults[Number(compareOne.value)];
+ const b=studyResults[Number(compareTwo.value)];
+
+ const diff=b.percentage-a.percentage;
+
+ let html=
+ `${esc(a.exam)}: ${a.percentage.toFixed(2)}%<br>`+
+ `${esc(b.exam)}: ${b.percentage.toFixed(2)}%<br>`+
+ `<br>Change: ${diff>=0?"+":""}${diff.toFixed(2)} percentage points<hr>`;
+
+ const names=[...new Set([
+  ...a.subjects.map(x=>x.subject),
+  ...b.subjects.map(x=>x.subject)
+ ])];
+
+ names.forEach(name=>{
+
+  const sa=a.subjects.find(x=>x.subject===name);
+  const sb=b.subjects.find(x=>x.subject===name);
+
+  if(sa&&sb){
+
+   const pa=sa.obtained/sa.max*100;
+   const pb=sb.obtained/sb.max*100;
+   const d=pb-pa;
+
+   html+=
+   `${esc(name)}:
+   ${pa.toFixed(1)}% → ${pb.toFixed(1)}%
+   (${d>=0?"+":""}${d.toFixed(1)})<br>`;
+  }
+ });
+
+ studyComparison.innerHTML=html;
+}
+
+function exportStudyCSV(){
+
+ if(!studyResults.length){
+  alert("No study results.");
+  return;
+ }
+
+ let csv=
+ "Academic Year,Exam,Subject,Maximum,Obtained,Percentage\n";
+
+ studyResults.forEach(r=>{
+  r.subjects.forEach(s=>{
+   csv+=`"${r.year}","${r.exam}","${s.subject}",${s.max},${s.obtained},${(s.obtained/s.max*100).toFixed(2)}\n`;
+  });
+ });
+
+ downloadText(
+  csv,
+  "DailyTools_Study_Results.csv",
+  "text/csv"
+ );
+}
+
+
+/* =========================================================
+   TASK PLANNER
+========================================================= */
+
+function addTask(){
+
+ const text=taskText.value.trim();
+
+ if(!text)return;
+
+ tasks.push({
+  id:Date.now(),
+  text,
+  date:taskDate.value,
+  priority:taskPriority.value,
+  done:false
+ });
+
+ save(DB.tasks,tasks);
+
+ taskText.value="";
+ taskDate.value="";
+
+ renderTasks();
+}
+
+function renderTasks(){
+
+ tasks.sort((a,b)=>
+  Number(a.done)-Number(b.done)
+ );
+
+ tasksList.innerHTML="";
+
+ tasks.forEach(t=>{
+
+  tasksList.innerHTML+=`
+  <div class="item">
+   <div class="itemText ${t.done?"done":""}">
+    <b>${esc(t.text)}</b><br>
+    <span class="small">
+     ${t.date||"No date"} • ${esc(t.priority)}
+    </span>
+   </div>
+
+   <div class="actions">
+    <button class="success"
+     onclick="toggleTask(${t.id})">✓</button>
+    <button class="danger"
+     onclick="deleteTask(${t.id})">🗑️</button>
+   </div>
+  </div>`;
+ });
+
+ const remaining=tasks.filter(x=>!x.done).length;
+
+ taskSummary.textContent=
+ `${remaining} remaining • ${tasks.length} total`;
+
+ updateDashboard();
+}
+
+function toggleTask(id){
+
+ const t=tasks.find(x=>x.id===id);
+
+ if(t)t.done=!t.done;
+
+ save(DB.tasks,tasks);
+ renderTasks();
+}
+
+function deleteTask(id){
+
+ tasks=tasks.filter(x=>x.id!==id);
+
+ save(DB.tasks,tasks);
+ renderTasks();
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+let calendarDate=new Date();
+let selectedDate="";
+
+function changeMonth(n){
+
+ calendarDate.setMonth(calendarDate.getMonth()+n);
+
+ renderCalendar();
+}
+
+function renderCalendar(){
+
+ const y=calendarDate.getFullYear();
+ const m=calendarDate.getMonth();
+
+ monthTitle.textContent=
+ new Date(y,m,1).toLocaleDateString(undefined,{
+  month:"long",
+  year:"numeric"
+ });
+
+ calendarGrid.innerHTML="";
+
+ const first=new Date(y,m,1).getDay();
+ const days=new Date(y,m+1,0).getDate();
+
+ for(let i=0;i<first;i++){
+  calendarGrid.appendChild(document.createElement("div"));
+ }
+
+ const today=new Date();
+
+ for(let d=1;d<=days;d++){
+
+  const el=document.createElement("div");
+  el.className="day";
+  el.textContent=d;
+
+  const key=
+   `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+
+  if(
+   d===today.getDate()&&
+   m===today.getMonth()&&
+   y===today.getFullYear()
+  )
+   el.classList.add("today");
+
+  if(selectedDate===key)
+   el.classList.add("selected");
+
+  const dayTasks=tasks.filter(x=>x.date===key);
+
+  if(dayTasks.length)
+   el.classList.add("hasEvent");
+
+  el.onclick=()=>{
+
+   selectedDate=key;
+
+   calendarSelected.innerHTML=
+    `<b>${key}</b><br>`+
+    (dayTasks.length
+     ?dayTasks.map(x=>esc(x.text)).join("<br>")
+     :"No tasks for this date.");
+
+   renderCalendar();
+  };
+
+  calendarGrid.appendChild(el);
+ }
+}
+
+
+/* =========================================================
+   NOTES
+========================================================= */
+
+let editingNoteId=null;
+
+function saveNote(){
+
+ const title=noteTitle.value.trim()||"Untitled";
+ const body=noteBody.value;
+
+ if(!body.trim()){
+  alert("Write something first.");
+  return;
+ }
+
+ if(editingNoteId){
+
+  const n=notes.find(x=>x.id===editingNoteId);
+
+  if(n){
+   n.title=title;
+   n.body=body;
+   n.updated=Date.now();
+  }
+
+ }else{
+
+  notes.unshift({
+   id:Date.now(),
+   title,
+   body,
+   updated:Date.now()
+  });
+ }
+
+ save(DB.notes,notes);
+
+ clearNoteEditor();
+ renderNotes();
+ updateDashboard();
+}
+
+function editNote(id){
+
+ const n=notes.find(x=>x.id===id);
+
+ if(!n)return;
+
+ editingNoteId=id;
+
+ noteTitle.value=n.title;
+ noteBody.value=n.body;
+
+ showPage("notes");
+}
+
+function clearNoteEditor(){
+
+ editingNoteId=null;
+ noteTitle.value="";
+ noteBody.value="";
+}
+
+function deleteNote(id){
+
+ notes=notes.filter(x=>x.id!==id);
+
+ save(DB.notes,notes);
+
+ renderNotes();
+ updateDashboard();
+}
+
+function renderNotes(){
+
+ const q=noteSearch.value.toLowerCase().trim();
+
+ notesList.innerHTML="";
+
+ notes
+ .filter(n=>
+  n.title.toLowerCase().includes(q)||
+  n.body.toLowerCase().includes(q)
+ )
+ .forEach(n=>{
+
+  notesList.innerHTML+=`
+  <div class="note">
+   <div class="noteTitle">${esc(n.title)}</div>
+   <p>${esc(n.body).replaceAll("\n","<br>")}</p>
+   <div class="small">
+    ${new Date(n.updated).toLocaleString()}
+   </div>
+   <div class="actions">
+    <button onclick="editNote(${n.id})">Edit</button>
+    <button class="danger"
+     onclick="deleteNote(${n.id})">Delete</button>
+   </div>
+  </div>`;
+ });
+}
+
+
+/* =========================================================
+   HABITS
+========================================================= */
+
+function addHabit(){
+
+ const name=habitName.value.trim();
+
+ if(!name)return;
+
+ habits.push({
+  id:Date.now(),
+  name,
+  completed:[]
+ });
+
+ save(DB.habits,habits);
+
+ habitName.value="";
+
+ renderHabits();
+}
+
+function renderHabits(){
+
+ habitsList.innerHTML="";
+
+ const today=new Date().toISOString().slice(0,10);
+
+ let done=0;
+
+ habits.forEach(h=>{
+
+  const isDone=h.completed?.includes(today);
+
+  if(isDone)done++;
+
+  habitsList.innerHTML+=`
+  <div class="item">
+   <div class="itemText ${isDone?"done":""}">
+    <b>${esc(h.name)}</b>
+   </div>
+
+   <div class="actions">
+    <button class="${isDone?"success":""}"
+     onclick="toggleHabit(${h.id})">
+     ${isDone?"✓":"○"}
+    </button>
+
+    <button class="danger"
+     onclick="deleteHabit(${h.id})">🗑️</button>
+   </div>
+  </div>`;
+ });
+
+ const percent=habits.length
+  ?done/habits.length*100
+  :0;
+
+ habitPercent.textContent=percent.toFixed(0)+"%";
+ habitBar.style.width=percent+"%";
+
+ habitStats.textContent=
+ `${done} of ${habits.length} habits completed today.`;
+
+ updateDashboard();
+}
+
+function toggleHabit(id){
+
+ const h=habits.find(x=>x.id===id);
+
+ if(!h)return;
+
+ if(!h.completed)h.completed=[];
+
+ const today=new Date().toISOString().slice(0,10);
+
+ if(h.completed.includes(today))
+  h.completed=h.completed.filter(x=>x!==today);
+ else
+  h.completed.push(today);
+
+ save(DB.habits,habits);
+
+ renderHabits();
+}
+
+function deleteHabit(id){
+
+ habits=habits.filter(x=>x.id!==id);
+
+ save(DB.habits,habits);
+
+ renderHabits();
+}
+
+
+/* =========================================================
+   EXPENSE TRACKER
+========================================================= */
+
+function addExpense(){
+
+ const name=expenseName.value.trim();
+ const amount=Number(expenseAmount.value);
+
+ if(!name||amount<=0){
+  alert("Enter a valid expense.");
+  return;
+ }
+
+ expenses.unshift({
+  id:Date.now(),
+  name,
+  amount,
+  date:expenseDate.value||
+   new Date().toISOString().slice(0,10),
+  category:expenseCategory.value
+ });
+
+ save(DB.expenses,expenses);
+
+ expenseName.value="";
+ expenseAmount.value="";
+
+ renderExpenses();
+}
+
+function renderExpenses(){
+
+ expenseList.innerHTML="";
+
+ let total=0;
+
+ expenses.forEach(e=>{
+
+  total+=Number(e.amount);
+
+  expenseList.innerHTML+=`
+  <div class="item">
+   <div class="itemText">
+    <b>${esc(e.name)}</b><br>
+    <span class="small">
+     ${esc(e.category)} • ${e.date}
+    </span>
+   </div>
+
+   <div>
+    <b>₹${Number(e.amount).toFixed(2)}</b>
+    <button class="danger"
+     onclick="deleteExpense(${e.id})">🗑️</button>
+   </div>
+  </div>`;
+ });
+
+ expenseTotal.textContent=
+ "₹"+total.toFixed(2);
+
+ expenseCount.textContent=expenses.length;
+}
+
+function deleteExpense(id){
+
+ expenses=expenses.filter(x=>x.id!==id);
+
+ save(DB.expenses,expenses);
+
+ renderExpenses();
+}
+
+
+/* =========================================================
+   FLASHCARDS
+========================================================= */
+
+let flashIndex=0;
+let flashShowingAnswer=false;
+
+function addFlashcard(){
+
+ const q=flashQuestion.value.trim();
+ const a=flashAnswer.value.trim();
+
+ if(!q||!a){
+  alert("Enter both question and answer.");
+  return;
+ }
+
+ flashcards.push({
+  id:Date.now(),
+  question:q,
+  answer:a
+ });
+
+ save(DB.flash,flashcards);
+
+ flashQuestion.value="";
+ flashAnswer.value="";
+
+ flashIndex=flashcards.length-1;
+ flashShowingAnswer=false;
+
+ renderFlash();
+}
+
+function renderFlash(){
+
+ flashCount.textContent=
+ flashcards.length+" card(s)";
+
+ if(!flashcards.length){
+
+  flashDisplay.textContent="No cards yet.";
+  flashPosition.textContent="";
+  return;
+ }
+
+ const card=flashcards[flashIndex];
+
+ flashDisplay.textContent=
+ flashShowingAnswer
+  ?card.answer
+  :card.question;
+
+ flashPosition.textContent=
+ `${flashIndex+1} / ${flashcards.length}`;
+}
+
+function flipFlashcard(){
+
+ if(!flashcards.length)return;
+
+ flashShowingAnswer=!flashShowingAnswer;
+
+ renderFlash();
+}
+
+function nextFlash(){
+
+ if(!flashcards.length)return;
+
+ flashIndex=(flashIndex+1)%flashcards.length;
+ flashShowingAnswer=false;
+
+ renderFlash();
+}
+
+function previousFlash(){
+
+ if(!flashcards.length)return;
+
+ flashIndex=
+ (flashIndex-1+flashcards.length)%flashcards.length;
+
+ flashShowingAnswer=false;
+
+ renderFlash();
+}
+
+function deleteCurrentFlash(){
+
+ if(!flashcards.length)return;
+
+ flashcards.splice(flashIndex,1);
+
+ if(flashIndex>=flashcards.length)
+  flashIndex=Math.max(0,flashcards.length-1);
+
+ save(DB.flash,flashcards);
+
+ flashShowingAnswer=false;
+
+ renderFlash();
+}
+
+
+/* =========================================================
+   TIC TAC TOE
+========================================================= */
+
+let tttBoard=Array(9).fill("");
+let tttTurn="X";
+let tttOver=false;
+
+function renderTTT(){
+
+ ttt.innerHTML="";
+
+ tttBoard.forEach((v,i)=>{
+
+  const b=document.createElement("button");
+
+  b.className="gameTile";
+  b.textContent=v;
+
+  b.onclick=()=>tttMove(i);
+
+  ttt.appendChild(b);
+ });
+
+ tttStatus.textContent=
+ tttOver?"Game over":"Turn: "+tttTurn;
+}
+
+function tttMove(i){
+
+ if(tttOver||tttBoard[i])return;
+
+ tttBoard[i]=tttTurn;
+
+ if(checkTTT(tttTurn)){
+  tttOver=true;
+  tttStatus.textContent=tttTurn+" wins!";
+ }else if(tttBoard.every(Boolean)){
+  tttOver=true;
+  tttStatus.textContent="Draw!";
+ }else{
+  tttTurn=tttTurn==="X"?"O":"X";
+ }
+
+ renderTTT();
+}
+
+function checkTTT(p){
+
+ const wins=[
+  [0,1,2],[3,4,5],[6,7,8],
+  [0,3,6],[1,4,7],[2,5,8],
+  [0,4,8],[2,4,6]
+ ];
+
+ return wins.some(w=>
+  w.every(i=>tttBoard[i]===p)
+ );
+}
+
+function resetTTT(){
+
+ tttBoard=Array(9).fill("");
+ tttTurn="X";
+ tttOver=false;
+
+ renderTTT();
+}
+
+
+/* =========================================================
+   RPS
+========================================================= */
+
+function playRPS(player){
+
+ const choices=["Rock","Paper","Scissors"];
+
+ const cpu=
+  choices[Math.floor(Math.random()*3)];
+
+ let result;
+
+ if(player===cpu)
+  result="Draw!";
+ else if(
+  player==="Rock"&&cpu==="Scissors"||
+  player==="Paper"&&cpu==="Rock"||
+  player==="Scissors"&&cpu==="Paper"
+ )
+  result="You win!";
+ else
+  result="Computer wins!";
+
+ rpsResult.textContent=
+ `You: ${player} • Computer: ${cpu} • ${result}`;
+}
+
+
+/* =========================================================
+   NUMBER GUESS
+========================================================= */
+
+let secretNumber=0;
+let guessAttempts=0;
+
+function newGuessGame(){
+
+ secretNumber=Math.floor(Math.random()*100)+1;
+ guessAttempts=0;
+
+ guessResult.textContent="New game started.";
+ guess.value="";
+}
+
+function makeGuess(){
+
+ if(!secretNumber)newGuessGame();
+
+ const g=Number(guess.value);
+
+ if(g<1||g>100){
+  guessResult.textContent="Enter 1 to 100.";
+  return;
+ }
+
+ guessAttempts++;
+
+ if(g===secretNumber){
+
+  guessResult.textContent=
+   `🎉 Correct in ${guessAttempts} attempt(s)!`;
+
+  secretNumber=0;
+
+ }else if(g<secretNumber){
+
+  guessResult.textContent="⬆️ Try a higher number.";
+
+ }else{
+
+  guessResult.textContent="⬇️ Try a lower number.";
+ }
+}
+
+
+/* =========================================================
+   MEMORY
+========================================================= */
+
+let memoryCards=[];
+let memoryOpen=[];
+let memoryLock=false;
+
+function startMemory(){
+
+ const symbols=["🍎","🚀","⚽","🐱","🎵","⭐","🔥","🌈"];
+
+ memoryCards=[...symbols,...symbols]
+  .sort(()=>Math.random()-.5);
+
+ memoryOpen=[];
+ memoryLock=false;
+
+ renderMemory();
+}
+
+function renderMemory(){
+
+ memory.innerHTML="";
+
+ memoryCards.forEach((symbol,i)=>{
+
+  const b=document.createElement("button");
+
+  b.className="gameTile";
+
+  b.textContent=
+   memoryOpen.includes(i)
+   ?symbol
+   :"?";
+
+  b.onclick=()=>memoryFlip(i);
+
+  memory.appendChild(b);
+ });
+}
+
+function memoryFlip(i){
+
+ if(memoryLock||memoryOpen.includes(i))
+  return;
+
+ memoryOpen.push(i);
+ renderMemory();
+
+ if(memoryOpen.length%2===0){
+
+  const a=memoryOpen[memoryOpen.length-2];
+  const b=memoryOpen[memoryOpen.length-1];
+
+  if(memoryCards[a]!==memoryCards[b]){
+
+   memoryLock=true;
+
+   setTimeout(()=>{
+
+    memoryOpen=
+     memoryOpen.filter(x=>x!==a&&x!==b);
+
+    memoryLock=false;
+    renderMemory();
+
+   },650);
+  }
+ }
+}
+
+
+/* =========================================================
+   2048
+========================================================= */
+
+let board2048=Array(16).fill(0);
+
+function start2048(){
+
+ board2048=Array(16).fill(0);
+
+ add2048();
+ add2048();
+
+ render2048();
+}
+
+function add2048(){
+
+ const empty=[];
+
+ board2048.forEach((v,i)=>{
+  if(v===0)empty.push(i);
+ });
+
+ if(!empty.length)return;
+
+ const index=
+  empty[Math.floor(Math.random()*empty.length)];
+
+ board2048[index]=
+  Math.random()<.9?2:4;
+}
+
+function render2048(){
+
+ game2048.innerHTML="";
+
+ board2048.forEach(v=>{
+
+  const d=document.createElement("div");
+
+  d.className="gameTile";
+  d.textContent=v||"";
+
+  game2048.appendChild(d);
+ });
+}
+
+function slideLine(line){
+
+ const arr=line.filter(Boolean);
+
+ for(let i=0;i<arr.length-1;i++){
+
+  if(arr[i]===arr[i+1]){
+   arr[i]*=2;
+   arr.splice(i+1,1);
+  }
+ }
+
+ while(arr.length<4)arr.push(0);
+
+ return arr;
+}
+
+function move2048(direction){
+
+ const old=JSON.stringify(board2048);
+
+ let m=[
+  board2048.slice(0,4),
+  board2048.slice(4,8),
+  board2048.slice(8,12),
+  board2048.slice(12,16)
+ ];
+
+ if(direction==="left")
+  m=m.map(slideLine);
+
+ if(direction==="right")
+  m=m.map(r=>slideLine(r.reverse()).reverse());
+
+ if(direction==="up"){
+
+  for(let c=0;c<4;c++){
+
+   let col=[
+    m[0][c],m[1][c],m[2][c],m[3][c]
+   ];
+
+   col=slideLine(col);
+
+   for(let r=0;r<4;r++)
+    m[r][c]=col[r];
+  }
+ }
+
+ if(direction==="down"){
+
+  for(let c=0;c<4;c++){
+
+   let col=[
+    m[0][c],m[1][c],m[2][c],m[3][c]
+   ];
+
+   col=slideLine(col.reverse()).reverse();
+
+   for(let r=0;r<4;r++)
+    m[r][c]=col[r];
+  }
+ }
+
+ board2048=m.flat();
+
+ if(JSON.stringify(board2048)!==old)
+  add2048();
+
+ render2048();
+}
+
+
+/* =========================================================
+   SNAKE
+========================================================= */
+
+const snakeCanvas=
+ document.getElementById("snakeCanvas");
+
+const ctx=snakeCanvas.getContext("2d");
+
+let snake=[];
+let snakeFood={x:100,y:100};
+let snakeDX=20;
+let snakeDY=0;
+let snakeInterval=null;
+
+function startSnake(){
+
+ clearInterval(snakeInterval);
+
+ snake=[
+  {x:140,y:140},
+  {x:120,y:140},
+  {x:100,y:140}
+ ];
+
+ snakeDX=20;
+ snakeDY=0;
+
+ placeSnakeFood();
+
+ snakeInterval=
+  setInterval(snakeLoop,120);
+}
+
+function placeSnakeFood(){
+
+ snakeFood={
+  x:Math.floor(Math.random()*15)*20,
+  y:Math.floor(Math.random()*15)*20
+ };
+}
+
+function snakeDirection(d){
+
+ if(d==="up"&&snakeDY===0){
+  snakeDX=0;snakeDY=-20;
+ }
+
+ if(d==="down"&&snakeDY===0){
+  snakeDX=0;snakeDY=20;
+ }
+
+ if(d==="left"&&snakeDX===0){
+  snakeDX=-20;snakeDY=0;
+ }
+
+ if(d==="right"&&snakeDX===0){
+  snakeDX=20;snakeDY=0;
+ }
+}
+
+function snakeLoop(){
+
+ const head={
+  x:snake[0].x+snakeDX,
+  y:snake[0].y+snakeDY
+ };
+
+ const hitWall=
+  head.x<0||
+  head.x>=300||
+  head.y<0||
+  head.y>=300;
+
+ const hitSelf=
+  snake.some(s=>s.x===head.x&&s.y===head.y);
+
+ if(hitWall||hitSelf){
+
+  clearInterval(snakeInterval);
+  snakeInterval=null;
+
+  alert("🐍 Game Over!");
+  return;
+ }
+
+ snake.unshift(head);
+
+ if(
+  head.x===snakeFood.x&&
+  head.y===snakeFood.y
+ ){
+  placeSnakeFood();
+ }else{
+  snake.pop();
+ }
+
+ drawSnake();
+}
+
+function drawSnake(){
+
+ ctx.clearRect(0,0,300,300);
+
+ ctx.fillStyle="#00d9ff";
+
+ snake.forEach(s=>{
+  ctx.fillRect(s.x,s.y,18,18);
+ });
+
+ ctx.fillStyle="#ff5570";
+ ctx.fillRect(
+  snakeFood.x,
+  snakeFood.y,
+  18,
+  18
+ );
+}
+
+
+/* =========================================================
+   KEYBOARD CONTROLS
+========================================================= */
+
+document.addEventListener("keydown",e=>{
+
+ if(e.key==="ArrowUp"){
+  snakeDirection("up");
+ }
+
+ if(e.key==="ArrowDown"){
+  snakeDirection("down");
+ }
+
+ if(e.key==="ArrowLeft"){
+  snakeDirection("left");
+ }
+
+ if(e.key==="ArrowRight"){
+  snakeDirection("right");
+ }
+
+ if(
+  document.getElementById("games").classList.contains("active")&&
+  ["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)
+ ){
+  e.preventDefault();
+
+  const map={
+   ArrowUp:"up",
+   ArrowDown:"down",
+   ArrowLeft:"left",
+   ArrowRight:"right"
+  };
+
+  move2048(map[e.key]);
+ }
+});
+
+
+/* =========================================================
+   MEDIA
+========================================================= */
+
+let musicURLs=[];
+
+musicFiles.addEventListener("change",()=>{
+
+ musicList.innerHTML="";
+
+ musicURLs.forEach(u=>URL.revokeObjectURL(u));
+ musicURLs=[];
+
+ [...musicFiles.files].forEach(file=>{
+
+  const url=URL.createObjectURL(file);
+
+  musicURLs.push(url);
+
+  const b=document.createElement("button");
+
+  b.textContent="▶ "+file.name;
+
+  b.onclick=()=>{
+   audioPlayer.src=url;
+   audioPlayer.play();
+  };
+
+  musicList.appendChild(b);
+ });
+});
+
+videoFile.addEventListener("change",()=>{
+
+ const file=videoFile.files[0];
+
+ if(!file)return;
+
+ videoPlayer.src=URL.createObjectURL(file);
+ videoPlayer.play();
+});
+
+
+/* =========================================================
+   BACKUP
+========================================================= */
+
+function exportBackup(){
+
+ const data={
+  version:"7.0",
+  created:new Date().toISOString(),
+  tasks,
+  notes,
+  habits,
+  expenses,
+  studyResults,
+  flashcards
+ };
+
+ downloadText(
+  JSON.stringify(data,null,2),
+  "DailyTools_7_Backup.json",
+  "application/json"
+ );
+}
+
+function restoreBackup(){
+
+ const file=backupFile.files[0];
+
+ if(!file){
+  alert("Choose a backup file.");
+  return;
+ }
+
+ const reader=new FileReader();
+
+ reader.onload=()=>{
+
+  try{
+
+   const data=JSON.parse(reader.result);
+
+   if(!data||typeof data!=="object")
+    throw Error();
+
+   tasks=Array.isArray(data.tasks)?data.tasks:[];
+   notes=Array.isArray(data.notes)?data.notes:[];
+   habits=Array.isArray(data.habits)?data.habits:[];
+   expenses=Array.isArray(data.expenses)?data.expenses:[];
+   studyResults=
+    Array.isArray(data.studyResults)
+    ?data.studyResults:[];
+   flashcards=
+    Array.isArray(data.flashcards)
+    ?data.flashcards:[];
+
+   save(DB.tasks,tasks);
+   save(DB.notes,notes);
+   save(DB.habits,habits);
+   save(DB.expenses,expenses);
+   save(DB.results,studyResults);
+   save(DB.flash,flashcards);
+
+   renderEverything();
+
+   alert("✅ Backup restored.");
+
+  }catch{
+   alert("❌ Invalid DailyTools backup.");
+  }
+ };
+
+ reader.readAsText(file);
+}
+
+function resetAllData(){
+
+ const ok=confirm(
+  "Delete all DailyTools 7.0 saved data?"
+ );
+
+ if(!ok)return;
+
+ Object.values(DB).forEach(k=>
+  localStorage.removeItem(k)
+ );
+
+ tasks=[];
+ notes=[];
+ habits=[];
+ expenses=[];
+ studyResults=[];
+ flashcards=[];
+
+ renderEverything();
+
+ alert("All local data deleted.");
+}
+
+
+/* =========================================================
+   DOWNLOAD HELPER
+========================================================= */
+
+function downloadText(text,name,type){
+
+ const blob=new Blob([text],{type});
+
+ const url=URL.createObjectURL(blob);
+
+ const a=document.createElement("a");
+
+ a.href=url;
+ a.download=name;
+
+ document.body.appendChild(a);
+ a.click();
+ a.remove();
+
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+
+/* =========================================================
+   RENDER EVERYTHING
+========================================================= */
+
+function renderEverything(){
+
+ renderTasks();
+ renderStudyResults();
+ renderNotes();
+ renderHabits();
+ renderExpenses();
+ renderFlash();
+ renderCalendar();
+ renderTTT();
+ render2048();
+ updateDashboard();
+}
+
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+renderEverything();
+newGuessGame();
+startMemory();
+start2048();
+updateStopwatch();
+updateTimer();
+
+</script>
+
+</body>
+</html>
