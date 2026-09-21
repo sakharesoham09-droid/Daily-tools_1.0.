@@ -1,16 +1,28 @@
 {
   "name": "DailyTools",
   "short_name": "DailyTools",
-  "description": "DailyTools - useful tools, study tracker, games and utilities in one app.",
-  "start_url": "/DailyTools_1.0/",
-  "scope": "/DailyTools_1.0/",
+  "description": "DailyTools - study tools, games, notes, habits, expenses and useful utilities.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#080b16",
   "theme_color": "#111827",
   "categories": [
-    "utilities",
     "education",
+    "utilities",
     "games"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
